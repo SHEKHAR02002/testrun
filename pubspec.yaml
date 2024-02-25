@@ -37,6 +37,10 @@ dependencies:
   cupertino_icons: ^1.0.6
   google_fonts: ^6.1.0
   motion: ^1.4.1
+  flutter_riverpod: ^2.4.10
+  http: ^1.2.1
+  dio: ^5.4.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -28,8 +28,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.lightBlue,
-                      foregroundColor: Colors.black,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                       minimumSize: Size(MediaQuery.of(context).size.width, 50)),
@@ -42,13 +42,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       Text(
                         ' Company Details',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400),
+                            fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                       Icon(
                         Icons.arrow_forward_ios,
-                        color: Colors.white,
                       )
                     ],
                   )),
@@ -59,9 +56,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.person_3_sharp,
-                      color: Colors.lightBlue,
+                      color: Theme.of(context).colorScheme.primary,
                       size: 24,
                     ),
                     const SizedBox(
@@ -85,9 +82,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.call,
-                      color: Colors.lightBlue,
+                      color: Theme.of(context).colorScheme.primary,
                       size: 24,
                     ),
                     const SizedBox(
@@ -111,9 +108,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.mail,
-                      color: Colors.lightBlue,
+                      color: Theme.of(context).colorScheme.primary,
                       size: 24,
                     ),
                     const SizedBox(

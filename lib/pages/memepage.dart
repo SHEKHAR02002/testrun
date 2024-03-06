@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:motion/motion.dart';
 import 'package:testrun/api/jokeapi.dart';
 import 'package:testrun/api/profileapi.dart';
 import 'package:testrun/model/jokemodel.dart';
@@ -63,7 +64,7 @@ class _MemePageState extends ConsumerState<MemePage> {
                     decoration: BoxDecoration(
                         image: const DecorationImage(
                             image: AssetImage("assets/profile.jpg")),
-                        color: Colors.lightBlue,
+                        color: Theme.of(context).colorScheme.primary,
                         borderRadius: BorderRadius.circular(10)),
                   ),
                 ),
@@ -72,16 +73,17 @@ class _MemePageState extends ConsumerState<MemePage> {
                 RichText(
                   text: TextSpan(
                       text: "Enjoy Your",
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
-                          color: Colors.lightBlue,
+                          color: Theme.of(context).colorScheme.primary,
                           letterSpacing: 1),
                       children: [
                         TextSpan(
                           text: " Meme",
                           style: TextStyle(
-                              color: Colors.grey.shade400,
+                              color:
+                                  Theme.of(context).colorScheme.inversePrimary,
                               fontSize: 24,
                               fontWeight: FontWeight.w400,
                               letterSpacing: 1),
@@ -92,24 +94,22 @@ class _MemePageState extends ConsumerState<MemePage> {
             ),
             loader
                 ? const SizedBox.shrink()
-                : SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    // GridView.builder is used to create grid view
-                    child: GridView.builder(
-                        itemCount: data.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                mainAxisSpacing: 10,
-                                crossAxisSpacing: 10),
-                        itemBuilder: (context, index) {
-                          // call our small card
-                          return memsmallcard(
-                              context: context,
-                              image: data[index].url.toString(),
-                              heading: data[index].name.toString());
-                        }),
-                  ),
+                : GridView.builder(
+                    itemCount: data.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10),
+                    itemBuilder: (context, index) {
+                      // call our small card
+                      return memsmallcard(
+                          context: context,
+                          image: data[index].url.toString(),
+                          heading: data[index].name.toString());
+                    }),
           ],
         ),
       ),
@@ -126,21 +126,25 @@ Widget memsmallcard(
     onTap: () {
       showDialog(
           context: context,
-          builder: (context) => memepopup(image: image, heading: heading));
+          builder: (context) =>
+              memepopup(image: image, heading: heading, context: context));
     },
     child: Container(
       height: 200,
       width: 200,
       decoration: BoxDecoration(
           image: DecorationImage(fit: BoxFit.fill, image: NetworkImage(image)),
-          color: Colors.lightBlue,
+          color: Theme.of(context).colorScheme.primary,
           borderRadius: BorderRadius.circular(10)),
     ),
   );
 }
 
 //Popup code
-Widget memepopup({required String image, required String heading}) {
+Widget memepopup(
+    {required String image,
+    required String heading,
+    required BuildContext context}) {
   // Dilog is used to create popup window
   return Dialog(
     insetPadding: const EdgeInsets.symmetric(vertical: 70, horizontal: 20),
@@ -150,13 +154,14 @@ Widget memepopup({required String image, required String heading}) {
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             heading,
             style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
-                color: Colors.grey.shade500,
+                color: Theme.of(context).colorScheme.primary,
                 letterSpacing: 1),
           ),
           const SizedBox(height: 20),
@@ -166,7 +171,7 @@ Widget memepopup({required String image, required String heading}) {
             decoration: BoxDecoration(
                 image: DecorationImage(
                     fit: BoxFit.fill, image: NetworkImage(image)),
-                color: Colors.lightBlue,
+                color: Theme.of(context).colorScheme.primary,
                 borderRadius: BorderRadius.circular(10)),
           ),
           const SizedBox(height: 20),
@@ -175,12 +180,30 @@ Widget memepopup({required String image, required String heading}) {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.share),
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Try Making Sharing Feature by urself'),
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.share,
+                  size: 30,
+                ),
               ),
               IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.save_alt),
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Try Making Save Feature by urself'),
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.save_alt,
+                  size: 30,
+                ),
               )
             ],
           )
